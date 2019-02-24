@@ -1,29 +1,36 @@
 #Authors: Salvador Octavio Briones Martínez & Gustavo Adolfo Rueda Enríquez
 .text
-addi $s0,$zero,8
-
-main:
+addi $s0,$zero,3
+main: 
     # Tower's creation
     # TowerA -> $s1 -> starts at 0x10010000
-    # TowerB -> $s2 ->starts at 0x10010020
-    # TowerC -> $s3 ->starts at 0x10010040
+    # TowerB -> $s2 -> starts at 0x10010020
+    # TowerC -> $s3 -> starts at 0x10010040
     addi $s1,$zero,0x1001
-    sll  $s1,$s1,16
-    addi $s2,$s1,0x20
-    addi $s3,$s1,0x40
+    sll  $s1,$s1,16		#$s1 = 0x10010000
+    addi $s2,$s1,0x1C		#$s2 = 0x10010020
+    addi $s3,$s1,0x3C		#$s3 = 0x10010040
     add  $t0,$zero,$s0
+    
+    addi $s1,$s1,-4		#move the Tower A stack pointer one place back.
+      
     for:
         beq $t0,$zero,end_for
-        sw $t0,($s1)
-        addi $s1,$s1,4
+        addi $s1,$s1,4		#move the Tower A stack pointer one place forward.
+
+        sw $t0,0($s1)		#place a disk in Tower A 
+        
         addi $t0,$t0,-1
         j for
-    end_for:
-    add $a0,$zero,$s0
+    end_for: 
+     
+    add $a0,$zero,$s0   
     add $a1,$zero,$s1
     add $a2,$zero,$s3
     add $a3,$zero,$s2
+    
     jal hanoiTower
+    
     j exit
  
 # This is a recursive function that does the  Hanoi's Towers algorithm.
@@ -33,6 +40,10 @@ main:
 # $a2 - finish - It refers to the tower's top where the disk must end.
 # $a3 - spare - It refers to the auxiliary tower's top.   
 hanoiTower:
+    bne $a0, $zero, recursion
+    jr  $ra
+    
+recursion:
     addi $sp,$sp,-20
     sw $ra,0($sp)
     sw $a0,4($sp)
@@ -40,21 +51,35 @@ hanoiTower:
     sw $a2,12($sp)
     sw $a3,16($sp)
   
-    addi $t0,$a0,-1
-    beq $t0,0,end_hanoiTower
     addi $a0,$a0,-1
-    add $t0,$zero,$a2
-    add $a2,$zero,$a3
-    add $a3,$zero,$t0
+    add $t0,$zero,$a2	
+    add $a2,$zero,$a3	#Swap: finish -> spare
+    add $a3,$zero,$t0	#Swap: spare -> finish
     jal hanoiTower
-    jal move_f
-    add $t0,$zero,$a1
-    add $a1,$zero,$a2
-    add $a2,$zero,$a3
-    add $a3,$zero,$t0
-    jal hanoiTower
+    add $t0,$zero,$a2	#Back up spare reference.
+    add $a2, $a3, $zero	#Swap: spare -> finish
+    add $a3,$zero,$t0	#Restoring spare reference.
     
-end_hanoiTower:
+    #pop
+    lw $v0,0($a1)	#int number = **tower;
+    sw $zero,0($a1)	#Clear stack.
+    addi $a1,$a1,-4	#(*tower)--;
+   
+    ##push		#push(disk, towerBTop);
+    addi $a2,$a2,4	#(*tower)++;
+    sw $v0,0($a2)	#**tower = disk;
+    
+    sw $a1,8($sp)
+    sw $a2,12($sp)
+    sw $a3,16($sp)
+    
+    lw $a0,4($sp)
+    addi $a0,$a0,-1
+    add $t0,$zero,$a1	#Back up start reference.
+    add $a1,$zero,$a3	#Swap: start -> spare
+    add $a3,$zero,$t0	#Swap: finish -> start
+    jal hanoiTower
+   
     lw $ra,0($sp)
     lw $a0,4($sp)
     lw $a1,8($sp)
@@ -62,49 +87,5 @@ end_hanoiTower:
     lw $a3,16($sp)
     addi $sp,$sp,20
     jr $ra
-# This is a functions function removes to top element of an Stack A
-# and pushes it to the top of an Stack B.
-# void move(int **towerATop, int **towerBTop)
-# $a1 - towerATop - The tower's top to be "poped" and pushed to Tower B.
-# $a2 - towerBTop - The tower's top.
-move_f:
-    addi $sp,$sp,-4
-    sw $ra,0($sp)
     
-    jal pop
-    add $a3,$zero,$v0		#int disk = pop(towerATop);
-    jal push			#push(disk, towerBTop);
-    
-    lw $ra,0($sp)
-    addi $sp,$sp,4
-
-# This function pushes an element to an Stack's top.
-# void push(int disk, int **tower)
-# $a3 - disk - The element to be pushed.
-# $a2 - tower - The Stack's current top.
-push:
-    addi $sp,$sp,-4
-    sw $ra,0($sp)
-    
-    sw $a3,0($a2)		#**tower = disk;
-    addi $a2,$a2,4		#(*tower)++;
-    
-    lw $ra,0($sp)
-    addi $sp,$sp,4
-    jr $ra
-
-# This function pops an Stack's top and returns it.
-# int pop(int **tower)
-# $a1 - tower - The Stack's current top that will be "poped".
-# It returns the result in $v0
-pop:
-    addi $sp,$sp,-4
-    sw $ra,0($sp)
-    
-    lw $v0,0($a1)		#int number = **tower;
-    addi $a1,$a1,-4		#(*tower)--;
-
-    lw $ra,0($sp)
-    addi $sp,$sp,4
-    jr $ra
 exit:
