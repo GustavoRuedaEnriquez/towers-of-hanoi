@@ -26,8 +26,8 @@ int main(){
 
 	towerA += n_disk;								//The pointer increases by n_disk. (The stack works only with the top element)
 
-	hanoiTower(n_disk, &towerA, &towerC, &towerB);	//Calling the function.
-	printHanoi(toPrint);								//Print the result.
+	hanoiTower(n_disk, &towerA, &towerB, &towerC);	//Calling the function.
+	printHanoi(toPrint);							//Print the result.
 	system("pause");
 	return 0;
 }
@@ -39,11 +39,14 @@ int main(){
  * finish - It refers to the tower's top where the disk must end.
  * spare - It refers to the auxiliary tower's top.
  */
-void hanoiTower(int disk, int **start, int **finish, int **spare){
-	if(disk > 0){
-		hanoiTower(disk - 1, start, spare, finish);	//Recursion's start
+void hanoiTower(int disk, int **start, int **spare, int **finish){
+	if(disk == 1){
 		move(start,finish);
-		hanoiTower(disk - 1, spare, finish, start); //Recursion's start
+	}
+	else{
+		hanoiTower(disk - 1, start, finish, spare);	//Recursion's start
+		move(start,finish);
+		hanoiTower(disk - 1, spare, start, finish); //Recursion's start
 	}
 }
 
