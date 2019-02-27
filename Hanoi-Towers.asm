@@ -1,18 +1,18 @@
-#Authors: Salvador Octavio Briones Martínez & Gustavo Adolfo Rueda Enríquez
+#Authors: Salvador Octavio Briones MartÃ­nez & Gustavo Adolfo Rueda EnrÃ­quez
 .text
 addi $s0,$zero,6
 main: 
     ori $s1,$zero,0x1001
-    sll $s1,$s1,16		#TowerA -> $s1 -> starts at 0x10010000
+    sll $s1,$s1,16			#TowerA -> $s1 -> starts at 0x10010000
     ori $s2,$s1,0x20		#TowerB -> $s2 -> starts at 0x10010020
     ori $s3,$s1,0x40		#TowerC -> $s3 -> starts at 0x10010040
     add $t0,$zero,$s0
       
     for:
-        beq $t0,$zero,end_for	#¿disks == 0?
-        sw $t0,0($s1)		#Place a disk in Tower A 
-        addi $s1,$s1,4		#Move the Tower A stack pointer one place forward.
-        addi $t0,$t0,-1		#Decrease the next disk's number.
+        beq $t0,$zero,end_for	#Â¿disks == 0?
+        sw $t0,0($s1)			#Place a disk in Tower A 
+        addi $s1,$s1,4			#Move the Tower A stack pointer one place forward.
+        addi $t0,$t0,-1			#Decrease the next disk's number.
         j for
     end_for: 
      
@@ -33,7 +33,7 @@ main:
 # $a2 - spare - It refers to the auxiliary tower's top.
 # $a3 - finish - It refers to the tower's top where the disk must end.
 hanoiTower:
-	bne $a0, $s4, recursion	#Stop condition: ¿disk == 1?
+	bne $a0, $s4, recursion	#Stop condition: Â¿disk == 1?
 	
 	addi $a1,$a1,-4		#(*tower)--
 	lw $t0,0($a1)		#int number = **tower	
