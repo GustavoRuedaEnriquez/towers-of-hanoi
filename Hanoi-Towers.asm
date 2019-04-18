@@ -58,7 +58,7 @@ recursion:
     add $a2,$a3,$zero   #Swap: finish -> spare
     add $a3,$t0,$zero   #Swap: spare -> finish
     
-    addi $a1,$a1,-4	    #(*tower)--
+    addi $a1,$a1,-4     #(*tower)--
     lw $t0,0($a1)       #int number = **tower	
     sw $zero,0($a1)     #Free the old stack's top		
     sw $t0,0($a3)       #**tower = disk;		
