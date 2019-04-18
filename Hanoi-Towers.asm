@@ -1,7 +1,7 @@
 #Authors: Salvador Octavio Briones Martínez & Gustavo Adolfo Rueda Enríquez
 .text
-addi $s0,$zero,6
-main: 
+addi $s0,$zero,3
+main:  
     ori $s1,$zero,0x1001
     sll $s1,$s1,16			#TowerA -> $s1 -> starts at 0x10010000
     ori $s2,$s1,0x20		#TowerB -> $s2 -> starts at 0x10010020
@@ -46,7 +46,7 @@ hanoiTower:
 recursion:
 	addi $sp,$sp, -8	#Reserve stack.
 	sw $ra,0($sp)		#Store $ra.
-	sw $a0,4($sp)		#Store disk number.
+	#sw $a0,4($sp)		#Store disk number.
 	
 	addi $a0,$a0, -1	# disk - 1
 	add $t0,$a2,$zero	#Back up the spare reference.	
@@ -75,8 +75,10 @@ recursion:
 	add $a1,$a2,$zero	#Swap: spare -> start
 	add $a2,$t0,$zero	#Swap: start -> spare
 	
+	addi $a0, $a0, 1
+	
 	lw $ra,0($sp)		#Restore $ra.
-	lw $a0,4($sp)		#Restore disk last value.
+	#lw $a0,4($sp)		#Restore disk last value.
 	addi $sp,$sp,8		#Free stack.		
 	
 	jr $ra

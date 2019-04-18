@@ -1,4 +1,4 @@
-//Author: Gustavo Rueda & salvador Briones
+//Authors: Gustavo Rueda & salvador Briones
 #include<stdio.h>
 #include<stdlib.h>
 
