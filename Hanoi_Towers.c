@@ -1,4 +1,4 @@
-//Authors: Gustavo Rueda & salvador Briones
+//Authors: Salvador Octavio Briones Martínez & Gustavo Adolfo Rueda Enríquez
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -11,25 +11,21 @@ void push(int disk, int **tower);
 int pop(int **tower);
 
 int main(){
-	int * towerA;									//We need 3 Stacks for each tower (A, B and C).
-	int * towerB;									//We need 3 Stacks for each tower (A, B and C).
-	int * towerC;									//We need 3 Stacks for each tower (A, B and C).
-	int * toPrint;
-
-	towerA = (int *)calloc(n_disk, sizeof(int));	//Memory's reservation
-	towerB = (int *)calloc(n_disk, sizeof(int));	//Memory's reservation
-	towerC = (int *)calloc(n_disk, sizeof(int));	//Memory's reservation
-	toPrint = towerC;
-
-	for(int i = 0; i < n_disk; i++)					//Tower A fill. towerA = n_disk, n_disk - 1, n_disk - 2, ... , 0
-		towerA[i] = n_disk - i;
-
-	towerA += n_disk;								//The pointer increases by n_disk. (The stack works only with the top element)
-
-	hanoiTower(n_disk, &towerA, &towerB, &towerC);	//Calling the function.
-	printHanoi(toPrint);							//Print the result.
-	system("pause");
-	return 0;
+    int * towerA;    //We need 3 Stacks for each tower (A, B and C).
+    int * towerB;    //We need 3 Stacks for each tower (A, B and C).
+    int * towerC;    //We need 3 Stacks for each tower (A, B and C).
+    int * toPrint;
+    towerA = (int *)calloc(n_disk, sizeof(int));    //Memory's reservation
+    towerB = (int *)calloc(n_disk, sizeof(int));    //Memory's reservation
+    towerC = (int *)calloc(n_disk, sizeof(int));    //Memory's reservation
+    toPrint = towerC;
+    for(int i = 0; i < n_disk; i++)    //Tower A fill. towerA = n_disk, n_disk - 1, n_disk - 2, ... , 0
+        towerA[i] = n_disk - i;
+    towerA += n_disk;    //The pointer increases by n_disk. (The stack works only with the top element)
+    hanoiTower(n_disk, &towerA, &towerB, &towerC);  //Calling the function.
+    printHanoi(toPrint); //Print the result.
+    system("pause");
+    return 0;
 }
 
 /*
@@ -40,14 +36,14 @@ int main(){
  * spare - It refers to the auxiliary tower's top.
  */
 void hanoiTower(int disk, int **start, int **spare, int **finish){
-	if(disk == 1){
-		move(start,finish);
-	}
-	else{
-		hanoiTower(disk - 1, start, finish, spare);	//Recursion's start
-		move(start,finish);
-		hanoiTower(disk - 1, spare, start, finish); //Recursion's start
-	}
+    if(disk == 1){
+        move(start,finish);
+    }
+    else{
+        hanoiTower(disk - 1, start, finish, spare); //Recursion's start
+        move(start,finish);
+        hanoiTower(disk - 1, spare, start, finish); //Recursion's start
+    }
 }
 
 /*
@@ -57,8 +53,8 @@ void hanoiTower(int disk, int **start, int **spare, int **finish){
  * TowerBTop - The tower's top.
  */
 void move(int **towerATop, int **towerBTop){
-	int disk = pop(towerATop);
-	push(disk, towerBTop);
+    int disk = pop(towerATop);
+    push(disk, towerBTop);
 }
 
 /*
@@ -67,8 +63,8 @@ void move(int **towerATop, int **towerBTop){
  * tower - The Stack's current top.
  */
 void push(int disk, int **tower){
-	**tower = disk;
-	(*tower)++;
+    **tower = disk;
+    (*tower)++;
 }
 
 /*
@@ -76,9 +72,9 @@ void push(int disk, int **tower){
  * tower - The Stack's current top that will be "poped".
  */
 int pop(int **tower){
-	(*tower)--;
-	int number = **tower;
-	return number;
+    (*tower)--;
+    int number = **tower;
+    return number;
 }
 
 /*
@@ -86,8 +82,8 @@ int pop(int **tower){
  * tower - The stack to print.
  */
 void printHanoi(int *tower){
-	printf("[ ");
-	for(int i = 0; i < n_disk; i++)
-		printf("%d ",tower[i]);
-	printf("]");
+    printf("[ ");
+    for(int i = 0; i < n_disk; i++)
+        printf("%d ",tower[i]);
+    printf("]");
 }

@@ -9,7 +9,7 @@ main:
     add $t0,$zero,$s0
 
     for:
-        beq $t0,$zero,end_for   #¿disks == 0?
+        beq $t0,$zero,end_for   # disks == 0?
         sw $t0,0($s1)           #Place a disk in Tower A 
         addi $s1,$s1,4          #Move the Tower A stack pointer one place forward.
         addi $t0,$t0,-1         #Decrease the next disk's number.
@@ -33,7 +33,7 @@ main:
 # $a2 - spare - It refers to the auxiliary tower's top.
 # $a3 - finish - It refers to the tower's top where the disk must end.
 hanoiTower:
-    bne $a0, $s4, recursion	#Stop condition: ¿disk == 1?
+    bne $a0, $s4, recursion	#Stop condition: disk == 1?
 	
     addi $a1,$a1,-4   #(*tower)--
     lw $t0,0($a1)     #int number = **tower	
