@@ -1,6 +1,8 @@
 # Towers of Hanoi
-Created by [Salvador Octavio Briones Martínez](https://github.com/sbriones97) and [Gustavo Adolfo Rueda Enríquez](https://github.com/GustavoRuedaEnriquez).
+Coded by [Salvador Octavio Briones Martínez](https://github.com/sbriones97) and [Gustavo Adolfo Rueda Enríquez](https://github.com/GustavoRuedaEnriquez).
 
-This project contains the program _Towers of Hanoi_, originally coded in C language adapted in its equivalent in MIPS assembly.
+Implementation of the algorithm to solve the _Towers of Hanoi_ puzzle, originally coded in C language and adapted to its equivalent in MIPS assembly.
 
-**DISCLAIMER:** This is an school project. We do not recommend use it for industry purposes.
+<div align='center'>
+    <img src='./readme-resources/towers-of-hanoi.gif' alt='Towers of Hanoi with 6 disks.'>
+</div>
