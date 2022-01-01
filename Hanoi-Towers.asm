@@ -1,5 +1,6 @@
-#Authors: Salvador Octavio Briones Martínez & Gustavo Adolfo Rueda Enríquez
+# Authors: Salvador Octavio Briones Martínez & Gustavo Adolfo Rueda Enríquez
 .text
+# Disk Number
 addi $s0,$zero,3
 main:
     ori $s1,$zero,0x1001
